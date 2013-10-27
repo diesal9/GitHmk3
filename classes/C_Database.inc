@@ -12,7 +12,7 @@ class C_Database
     //open a connection to the database
     function OpenConnection()
     {
-        $this->linkID = new mysqli($GLOBALS["server"], $GLOBALS["username"], $GLOBALS["password"], $GLOBALS["databaseName"]);
+         $this->linkID = new mysqli($GLOBALS["server"], $GLOBALS["username"], $GLOBALS["password"], $GLOBALS["databaseName"]);
     }
 
     //close a connection to the database

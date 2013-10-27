@@ -12,7 +12,7 @@ class C_Database
     //open a connection to the database
     function OpenConnection()
     {
-         $this->linkID = new mysqli($GLOBALS["server"], $GLOBALS["username"], $GLOBALS["password"], $GLOBALS["databaseName"]);
+        $this->linkID = new mysqli($GLOBALS["server"], $GLOBALS["username"], $GLOBALS["password"], $GLOBALS["databaseName"]);
     }
 
     //close a connection to the database
@@ -43,6 +43,21 @@ class C_Database
         {
             array_push($result, $row[0]);
         }
+
+        return $result;
+    }
+
+    //write a limerick to the database
+    function saveEntry($text, $title, $author)
+    {
+        $result = "";
+
+        $sessionId = intval($_SESSION[$GLOBALS["userId"]]);
+        $query = 
+            "CALL CreateLimerick('$text', '$title', '$author', $sessionId)";
+        $tempResult = $this->linkID->query($query);
+        $row = $tempResult->fetch_row(); 
+        $result = $row[0];
 
         return $result;
     }

@@ -2,11 +2,11 @@
 
 //the name of the db user
 global $username;
-$username = "xxxxxx";
+$username = "xxxxx";
 
 //the password of the db user
 global $password;
-$password = "xxxxxx";
+$password = "xxxxx";
 
 //the name of the db server
 global $server;
@@ -26,7 +26,7 @@ $controllersSupported = array("main");
 
 //an array of supported views
 global $viewsSupported;
-$viewsSupported = array("nonloggedin", "limerick");
+$viewsSupported = array("nonloggedin", "limerick", "saveentry");
 
 //the title of the blog site
 global $siteTitle;

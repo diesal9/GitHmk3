@@ -13,16 +13,17 @@ class C_Limerick_Model
         return $result;
     }
 
-    //create a blog entry
-    function saveEntry($title, $text, &$entryNameOut)
+    //create a limerick entry
+    function saveEntry($text, $title, $author)
     {
         $result = FALSE;
 
-        //instantiate our blog entry class
-        $blogEntryPath = BASE_DIR . "entries/";
-        $blogEntry = new C_BlogEntry($blogEntryPath);
-        $result = 
-            $blogEntry->saveEntry($blogEntryPath, $title, $text, $entryNameOut);
+        //instantiate the Database class
+        $database = new C_Database();
+
+        $database->OpenConnection();
+        $result =  $database->saveEntry($text, $title, $author);
+        $database->CloseConnection();
 
         return $result;
     }

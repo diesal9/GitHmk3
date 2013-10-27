@@ -33,14 +33,11 @@ class C_Controller
         {
             $title = $this->getRequestSetting($_REQUEST, "title");
             $text = $this->getRequestSetting($_REQUEST, "text");
-            $entryName = "";
-            $limerickModel->saveEntry($title, $text, $entryName);
-            $this->entry = $entryName;
-
-            $pathToEntries = BASE_DIR . "entries/";
-            $this->entries = 
-                $fileSystem->getDirectories($pathToEntries);
-            $this->view = "loggedin";
+            $author = $this->getRequestSetting($_REQUEST, "author");
+            $limerickId = $limerickModel->saveEntry($text, $title, $author);
+            $this->limerick = $limerickId;
+            echo "Limerick ID [" . $this->limerick . "]";
+            $this->view = "nonloggedin";
         }
 
         if (strToLower($this->view) == "limerick")

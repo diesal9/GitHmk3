@@ -26,9 +26,6 @@ class C_Controller
         //instantiate our limerick model class
         $limerickModel = new C_Limerick_Model();
 
-        //instantiate the Database class
-        $database = new C_Database();
-
         if (strToLower($this->view) == "saveentry")
         {
             $title = $this->getRequestSetting($_REQUEST, "title");
@@ -36,7 +33,14 @@ class C_Controller
             $author = $this->getRequestSetting($_REQUEST, "author");
             $limerickId = $limerickModel->saveEntry($text, $title, $author);
             $this->limerick = $limerickId;
-            echo "Limerick ID [" . $this->limerick . "]";
+            //echo "Limerick ID [" . $this->limerick . "]";
+            $this->view = "nonloggedin";
+        }
+
+        if (strToLower($this->view) == "random")
+        {
+            $limerickId = $limerickModel->GetRandomLimerickId();
+            $this->limerick = $limerickId;
             $this->view = "nonloggedin";
         }
 
@@ -46,7 +50,14 @@ class C_Controller
         }
         else
         {
-            $data[0] = $this->entries;
+            $limerickModel->UpdateViewedLimerick($this->limerick);
+            $data[0] = $limerickModel->getEntry($this->limerick);
+            $data[1] = $limerickModel->GetTenHighestRated();
+            $data[2] = $limerickModel->GetTenMostRecent();
+
+
+
+
         }
 
         //$data[1] = $entryModel->getEntry($this->entry);

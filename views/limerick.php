@@ -89,7 +89,7 @@ class C_View
                 <meta name="Author" content="Charles Bocage" />
                 <meta name="description" content="This is a page showcasing 
                     a simple looney limerick site" />
-                <meta name="keywords" content="blog comment sample" />
+                <meta name="keywords" content="limerick comment sample" />
                 <meta name="ROBOTS" content="NOINDEX,NOFOLLOW" /> 
                 <!-- Example commands NOINDEX, NOFOLLOW, NOCACHE, NOSNIPPET, 
                     NOODP, NOYDIR . Some of these commands can also be 

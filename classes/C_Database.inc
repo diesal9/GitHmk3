@@ -63,81 +63,151 @@ class C_Database
     }
 
     //write a file to disk
-    function writeFile($path, $text)
+    function getFeaturedLimerickID()
     {
-        if (file_exists(dirname($path)))
-        {
-            $fp=fopen($path, "w+");
+        $result = "";
 
-            foreach($text as $value)
+        $query = 
+            "CALL GetFeaturedLimerick()";
+        $tempResult = $this->linkID->query($query);
+        $row = $tempResult->fetch_row();
+        date_default_timezone_set('America/Los_Angeles');
+        $featuredDateTime = new DateTime($row[4]);
+        $tenMinutesAgo = new DateTime("now");
+        $tenMinutesAgo->sub(new DateInterval('PT10M'));
+        $result = intval($row[0]);
+
+        if ($featuredDateTime < $tenMinutesAgo)
+        {
+            $oldID = $newID = intval($row[0]);
+            while($oldID == $newID)
             {
-                fwrite($fp, $value ."\r\n");
+                $query = 
+                    "CALL GetRandomLimerick()";
+                $this->OpenConnection();
+                $tempResult = $this->linkID->query($query);
+                $row = $tempResult->fetch_row();
+                date_default_timezone_set('America/Los_Angeles');
+                $featuredDateTime = new DateTime($row[4]);
+                $tenMinutesAgo = new DateTime("now");
+                $tenMinutesAgo->sub(new DateInterval('PT10M'));
+                $newID = $result = intval($row[0]);
             }
 
-            fclose($fp);
+            $query = 
+                "CALL UpdateFeaturedLimerick($oldID, $newID)";
+            $this->OpenConnection();
+            $this->linkID->query($query);
         }
+
+        return $result;
     }
 
-    //delete a file from disk
-    function deleteFile($path)
+    //get a limerick by Id
+    function getLimerickById($limerickId)
     {
-        if (file_exists($path))
-        {
-            unlink($path);
-        }
+        $result = "";
+
+        $limerickId = intval($limerickId);
+        $query = "CALL GetLimerick($limerickId)";
+        $result = $this->linkID->query($query);
+
+        return $result;
     }
 
-    //get the directories of a directory
-    function getDirectories($path)
+    //update the viewed date of an entry
+    function UpdateViewedLimerick($limerickId)
     {
-        $result = array("mostrecent");
+        $limerickId = intval($limerickId);
+        $query = "CALL UpdateViewedLimerick($limerickId)";
+        $result = $this->linkID->query($query);
+    }
 
-        if (file_exists($path))
+    //Get total average rating
+    function GetAverageRating($limerickId)
+    {
+        $result = "";
+
+        $limerickId = intval($limerickId);
+        $query = "CALL GetAverageRating($limerickId)";
+        $tempResult = $this->linkID->query($query);
+
+        if ($tempResult->num_rows == 0)
         {
-            $directories = scandir($path);
-            foreach($directories as $directory) 
+            $result = "0";
+        }
+        else
+        {
+            $row = $tempResult->fetch_row();
+
+            if ($row[0] == NULL)
             {
-                if (is_dir($path . $directory) && $directory != "." &&
-                    $directory != "..")
-                {
-                    array_unshift($result, $directory);
-                }
+                $result = "0";
+            }
+            else
+            {
+                $result = $row[0];
             }
         }
 
         return $result;
     }
 
-    //create a directory
-    function writeDirectory($path)
+    //Get total average rating
+    function GetGetSessionUserRating($limerickId)
     {
-        mkdir($path);
+        $result = "";
+
+        $limerickId = intval($limerickId);
+        $userId = intval($_SESSION[$GLOBALS["userId"]]);
+        $query = "CALL GetSessionUserRating($limerickId, $userId)";
+        $tempResult = $this->linkID->query($query);
+
+        if ($tempResult->num_rows == 0)
+        {
+            $result = "0";
+        }
+        else
+        {
+            $row = $tempResult->fetch_row();
+            $result = $row[0];
+        }
+
+        return $result;
     }
 
-    //delete a directory
-    function deleteDirectory($path)
+    //get the ten highest rated limerick entries
+    function GetTenHighestRated()
     {
-        if (file_exists($path))
-        {
-            rmdir($path);
-        }
+        $result = "";
+
+        $query = "CALL GetTenHighestRated()";
+        $result = $this->linkID->query($query);
+
+        return $result;
     }
 
-    //get the first line of each blog.txt file
-    function getTitles($path)
-    {
-        $result = array();
 
-        $directories = $this->getDirectories($path);
-        foreach($directories as $directory) 
-        {
-            if (strToLower($directory) == "mostrecent")
-            {
-                $directory = "0";
-            }
-            $lines = $this->readAllLines($path . $directory . "/blog.txt");
-            array_push($result, $lines[0]);
-        }
+    //get the ten most recently viewed limerick entries
+    function GetTenMostRecent()
+    {
+        $result = "";
+
+        $query = "CALL GetTenMostRecent()";
+        $result = $this->linkID->query($query);
+
+        return $result;
+    }
+
+    //get a random limerick entry
+    function GetRandomLimerickId()
+    {
+        $result = "";
+
+        $query = "CALL GetRandomLimerick()";
+        $tempResult = $this->linkID->query($query);
+        $row = $tempResult->fetch_row();
+        $result = $row[0];
 
         return $result;
     }

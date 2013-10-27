@@ -9,9 +9,124 @@ class C_View
 
 ?>
         <div id="rightPaneOut">
-            <a id="cId" href="?c=main&amp;view=limerick" >Create Limerick</a>
+            <table>
+                <tr>
+                    <td>
+                        <a id="cId" href="?c=main&amp;view=limerick" >
+                            Create Limerick
+                        </a>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td><br /></td><td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label><strong>Ten Highest Rated</strong></label>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+<?php
+    $count = 0;
+    while ($row = $data[1]->fetch_row()) 
+    {
+//row[0] = id
+//row[1] = title
+//row[2] = average
+?>
+                <tr>
+                    <td>
+                        <a id=tenHigh<?php echo $row[0]; ?> 
+               href="?c=main&amp;view=nonloggedin&amp;l=<?php echo $row[0]; ?>">
+                        <?php echo $row[1]; ?></a>
+                    </td>
+                    <td>
+                        <label><?php echo $row[2]; ?></label>
+                    </td>
+                </tr>
+<?php
+    }
+?>
+                <tr>
+                    <td><br /></td><td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label><strong>Ten Recently Viewed</strong></label>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+<?php
+    $count = 0;
+    while ($row = $data[2]->fetch_row()) 
+    {
+//row[0] = id
+//row[1] = title
+//row[2] = date
+?>
+                <tr>
+                    <td>
+                        <a id=tenMost<?php echo $row[0]; ?> 
+               href="?c=main&amp;view=nonloggedin&amp;l=<?php echo $row[0]; ?>">
+                        <?php echo $row[1]; ?></a>
+                    </td>
+                    <td>
+                        <label><?php echo $row[2]; ?></label>
+                    </td>
+                </tr>
+<?php
+    }
+?>
+                <tr>
+                    <td><br /></td><td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a id=random href="?c=main&amp;view=random">
+                        View a Random Limerick</a>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
         </div>
         <h1><?php echo $GLOBALS["siteTitle"]; ?></h1>
+<?php
+echo "Title " . $data[0]->title . "<br />";
+echo "Author " . $data[0]->author . "<br />";
+echo "Limerick " . str_replace("\n", "<br />", $data[0]->text) . "<br />";
+
+$userRating = intval($data[0]->userRating);
+//print grey halves
+$left = TRUE;
+for ($i = 0; $i < 5 - $userRating; $i += 0.5)
+{
+    if ($left)
+    {
+?>
+<a id=greyStar<?php echo $i; ?> href="?c=main&amp;view=setuserrating"><img id="gg" src="Images/GreyStarLeftSide.png" alt="rating x"/></a>
+<?php
+    }
+    else
+    {
+?>
+<a id=greyStar<?php echo $i; ?> href="?c=main&amp;view=setuserrating"><img id-"ff" src="Images/GreyStarRightSide.png" alt="rating x" /></a>
+<?php
+    }
+    $left = !$left;
+}
+
+echo "User Rating " . $data[0]->userRating . "<br />";
+
+
+echo "Total Rating " . $data[0]->totalRating . "<br />";
+
+
+echo "Session " . $_SESSION[$GLOBALS["userId"]] . "<br />";
+?>
 <!--        <h1>
             <a id="siteTitleId" 
                 href="?c=main&amp;view=nonloggedin&amp;e=mostrecent" >
@@ -73,7 +188,7 @@ class C_View
                 <meta name="Author" content="Charles Bocage" />
                 <meta name="description" content="This is a page showcasing 
                     a simple looney limerick site" />
-                <meta name="keywords" content="blog comment sample" />
+                <meta name="keywords" content="limerick comment sample" />
                 <meta name="ROBOTS" content="NOINDEX,NOFOLLOW" /> 
                 <!-- Example commands NOINDEX, NOFOLLOW, NOCACHE, NOSNIPPET, 
                     NOODP, NOYDIR . Some of these commands can also be 

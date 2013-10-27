@@ -79,9 +79,21 @@ class C_Hw3
 
         $limerickRequested = $this->getRequestSetting($request, "l");
 
+        //instantiate the database class
+        $database = new C_Database();
+
+        $database->OpenConnection();
+        $featuredLimerick = $database->getFeaturedLimerickID();
+        $database->CloseConnection();
+
+        if ($limerickRequested == "")
+        {
+            $limerickRequested = $featuredLimerick;
+        }
+
         $result = 
             $this->confirmValue($limerickRequested, $limericks) == "" 
-            ? NULL
+            ? $featuredLimerick
             : $this->confirmValue($limerickRequested, $limericks);
 
         return $result;

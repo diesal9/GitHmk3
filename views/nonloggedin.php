@@ -9,8 +9,7 @@ class C_View
 
 ?>
         <div id="rightPaneOut">
-            <a id="LoginId" href="?c=login&amp;view=login" >Login</a>
-        <img src="Images/YellowStar.png" alt="sdf"></img>
+            <a id="cId" href="?c=main&amp;view=limerick" >Create Limerick</a>
         </div>
         <h1><?php echo $GLOBALS["siteTitle"]; ?></h1>
 <!--        <h1>
@@ -58,8 +57,9 @@ class C_View
     //print the header
     function printHeader()
     {
+        echo '<?xml version ="1.0" encoding="utf-8" ?>';
 ?>
-<?xml version ="1.0" encoding="utf-8" ?>
+
         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
             "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" >
@@ -72,7 +72,7 @@ class C_View
                     charset=UTF-8" />
                 <meta name="Author" content="Charles Bocage" />
                 <meta name="description" content="This is a page showcasing 
-                    a simple blog site" />
+                    a simple looney limerick site" />
                 <meta name="keywords" content="blog comment sample" />
                 <meta name="ROBOTS" content="NOINDEX,NOFOLLOW" /> 
                 <!-- Example commands NOINDEX, NOFOLLOW, NOCACHE, NOSNIPPET, 

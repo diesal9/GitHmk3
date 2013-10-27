@@ -2,11 +2,11 @@
 
 //the name of the db user
 global $username;
-$username = "xxxx";
+$username = "xxxxxx";
 
 //the password of the db user
 global $password;
-$password = "xxxx";
+$password = "xxxxxx";
 
 //the name of the db server
 global $server;

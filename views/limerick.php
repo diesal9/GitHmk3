@@ -8,12 +8,9 @@ class C_View
         $this->printHeader();
 
 ?>
-        <h1>Clicking on the [<?php echo $GLOBALS["siteTitle"]; ?>] 
-            portion of this should also be a link that points back to BASEURL.
-        </h1>
         <h1>
             <a id="siteTitleId" 
-                href="?c=main&amp;view=loggedin&amp;e=mostrecent" >
+                href="?c=main&amp;view=nonloggedin" >
                 <?php echo $GLOBALS["siteTitle"]; ?>
             </a> - <?php echo $data[0]; ?>
         </h1>
@@ -36,13 +33,24 @@ class C_View
 	                    </td>
                     </tr>
                     <tr>
+	                    <td>
+		                    <label id='authorLabel' 
+                                for='authorId' >Author</label>
+	                    </td>
                         <td>
-                            <label id='blogTextAreaLabel' for='blogTextArea' >
-                                Blog Text
+                            <input type='text' id='authorId' name='author' 
+                                value='' />
+	                    </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label id='limerickTextAreaLabel' 
+                                for='limerickTextArea' >
+                                Limerick Text
                             </label>
                         </td>
 	                    <td>
-		                    <textarea rows="4" cols="50" id='blogTextArea' 
+		                    <textarea rows="4" cols="50" id='limerickTextArea' 
                                 name='text'></textarea>
 	                    </td>
                     </tr>
@@ -65,8 +73,9 @@ class C_View
     //print the header
     function printHeader()
     {
+        echo '<?xml version ="1.0" encoding="utf-8" ?>';
 ?>
-<?xml version ="1.0" encoding="utf-8" ?>
+
         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
             "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" >
@@ -79,7 +88,7 @@ class C_View
                     charset=UTF-8" />
                 <meta name="Author" content="Charles Bocage" />
                 <meta name="description" content="This is a page showcasing 
-                    a simple blog site" />
+                    a simple looney limerick site" />
                 <meta name="keywords" content="blog comment sample" />
                 <meta name="ROBOTS" content="NOINDEX,NOFOLLOW" /> 
                 <!-- Example commands NOINDEX, NOFOLLOW, NOCACHE, NOSNIPPET, 

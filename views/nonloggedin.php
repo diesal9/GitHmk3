@@ -100,28 +100,100 @@ echo "Author " . $data[0]->author . "<br />";
 echo "Limerick " . str_replace("\n", "<br />", $data[0]->text) . "<br />";
 
 $userRating = intval($data[0]->userRating);
-//print grey halves
+
 $left = TRUE;
-for ($i = 0; $i < 5 - $userRating; $i += 0.5)
+$count = 0;
+$ratingToShow = 0;
+$id = $data[0]->id;
+$userId = $_SESSION[$GLOBALS["userId"]];
+//print yellow halves
+for ($i = 0; $i < $userRating; $i += 0.5)
 {
+    $ratingToShow = $i + 0.5;
     if ($left)
     {
-?>
-<a id=greyStar<?php echo $i; ?> href="?c=main&amp;view=setuserrating"><img id="gg" src="Images/GreyStarLeftSide.png" alt="rating x"/></a>
-<?php
+        echo "<a id='greyStarA$count' href='?c=main&amp;l=$id&amp;u=$userId" .
+            "&amp;view=setuserrating&amp;r=$ratingToShow'>" . 
+            "<img border='0' id='greyStarI$count' " . 
+            "src='Images/YellowStarLeftSide.png' " . 
+            "alt='rate it at $ratingToShow' /></a>";
     }
     else
     {
-?>
-<a id=greyStar<?php echo $i; ?> href="?c=main&amp;view=setuserrating"><img id-"ff" src="Images/GreyStarRightSide.png" alt="rating x" /></a>
-<?php
+        echo "<a id='greyStarA$count' href='?c=main&amp;l=$id&amp;u=$userId" .
+            "&amp;view=setuserrating&amp;r=$ratingToShow'>" . 
+            "<img border='0' id='greyStarI$count' " . 
+            "src='Images/YellowStarRightSide.png' " . 
+            "alt='rate it at $ratingToShow' /></a>";
+    }
+    $left = !$left;
+}
+//print grey halves
+for ($i = $userRating; $i < 5; $i += 0.5)
+{
+    $ratingToShow = $i + 0.5;
+    if ($left)
+    {
+        echo "<a id='greyStarA$count' href='?c=main&amp;l=$id&amp;u=$userId" .
+            "&amp;view=setuserrating&amp;r=$ratingToShow'>" . 
+            "<img border='0' id='greyStarI$count' " . 
+            "src='Images/GreyStarLeftSide.png' " . 
+            "alt='rate it at $ratingToShow' /></a>";
+    }
+    else
+    {
+        echo "<a id='greyStarA$count' href='?c=main&amp;l=$id&amp;u=$userId" .
+            "&amp;view=setuserrating&amp;r=$ratingToShow'>" . 
+            "<img border='0' id='greyStarI$count' " . 
+            "src='Images/GreyStarRightSide.png' " . 
+            "alt='rate it at $ratingToShow' /></a>";
     }
     $left = !$left;
 }
 
 echo "User Rating " . $data[0]->userRating . "<br />";
 
+$totalRating = intval($data[0]->totalRating);
 
+$left = TRUE;
+$count = 0;
+$ratingToShow = 0;
+//print yellow halves
+for ($i = 0; $i < $totalRating; $i += 0.5)
+{
+    $ratingToShow = $i + 0.5;
+    if ($left)
+    {
+        echo "<img border='0' id='greyStarI$count' " . 
+            "src='Images/YellowStarLeftSide.png' " . 
+            "alt='rate it at $ratingToShow' />";
+    }
+    else
+    {
+        echo "<img border='0' id='greyStarI$count' " . 
+            "src='Images/YellowStarRightSide.png' " . 
+            "alt='rate it at $ratingToShow' />";
+    }
+    $left = !$left;
+}
+//print grey halves
+for ($i = $totalRating; $i < 5; $i += 0.5)
+{
+    $ratingToShow = $i + 0.5;
+    if ($left)
+    {
+        echo "<img border='0' id='greyStarI$count' " . 
+            "src='Images/GreyStarLeftSide.png' " . 
+            "alt='rate it at $ratingToShow' />";
+    }
+    else
+    {
+        echo "<img border='0' id='greyStarI$count' " . 
+            "src='Images/GreyStarRightSide.png' " . 
+            "alt='rate it at $ratingToShow' />";
+    }
+    $left = !$left;
+}
 echo "Total Rating " . $data[0]->totalRating . "<br />";
 
 

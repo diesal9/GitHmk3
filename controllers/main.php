@@ -44,6 +44,15 @@ class C_Controller
             $this->view = "nonloggedin";
         }
 
+        if (strToLower($this->view) == "setuserrating")
+        {
+            $rating = $this->getRequestSetting($_REQUEST, "r");
+            $userId = $this->getRequestSetting($_REQUEST, "u");
+            $limerickModel->
+                SubmitUserRating($rating, $userId, $this->limerick);
+            $this->view = "nonloggedin";
+        }
+
         if (strToLower($this->view) == "limerick")
         {
             $data[0] = "Add New Limerick";

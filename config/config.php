@@ -26,7 +26,8 @@ $controllersSupported = array("main");
 
 //an array of supported views
 global $viewsSupported;
-$viewsSupported = array("nonloggedin", "limerick", "saveentry", "random");
+$viewsSupported = array("nonloggedin", "limerick", "saveentry", "random", 
+    "setuserrating");
 
 //the title of the blog site
 global $siteTitle;

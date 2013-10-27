@@ -83,6 +83,18 @@ class C_Limerick_Model
 
         return $result;
     }
+
+
+    //update the user rating an entry
+    function SubmitUserRating($rating, $userId, $limerickId)
+    {
+        //instantiate the Database class
+        $database = new C_Database();
+
+        $database->OpenConnection();
+        $result =  $database->SubmitUserRating($rating, $userId, $limerickId);
+        $database->CloseConnection();
+    }
 }
 
 ?>

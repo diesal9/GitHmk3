@@ -170,7 +170,15 @@ class C_Database
         else
         {
             $row = $tempResult->fetch_row();
-            $result = $row[0];
+
+            if ($row[0] == NULL)
+            {
+                $result = "0";
+            }
+            else
+            {
+                $result = $row[0];
+            }
         }
 
         return $result;
@@ -210,6 +218,16 @@ class C_Database
         $result = $row[0];
 
         return $result;
+    }
+
+    //update the user rating an entry
+    function SubmitUserRating($rating, $userId, $limerickId)
+    {
+        $rating = floatval($rating);
+        $userId = intval($userId);
+        $limerickId = intval($limerickId);
+        $query = "CALL SubmitUserRating($rating, $userId, $limerickId)";
+        $result = $this->linkID->query($query);
     }
 }
 

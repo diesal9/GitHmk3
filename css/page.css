@@ -1,0 +1,71 @@
+<style type="text/css">
+
+body, html, input, a, div, textarea, p
+{
+    font-family:"Arial", Times, serif;
+}
+
+h1
+{
+    text-transform: uppercase;
+}
+
+a:visited {color:green;}
+a:hover   {color:black;}
+a:active  {color:blue;}
+
+body, html
+{
+    background-color:lightgrey;
+}
+
+form#authenticateFormId
+{
+    background-color:grey;
+    width:25%;
+    padding:10px;
+}
+
+form#newEntryFormId
+{
+    background-color:grey;
+    width:35%;
+    padding:10px;
+}
+
+div#rightPaneIn
+{
+    float:right;
+    width:20%;
+    background-color:orange;
+    height:100%;
+}
+
+div#rightPaneOut
+{
+    float:right;
+    width:20%;
+}
+
+input#submitId
+{
+    float:left;
+}
+
+#LoginId
+{
+    float:right;
+}
+
+.comment
+{
+    background-color:white;
+    width:80%;
+}
+
+.blogEntry
+{
+    color:blue;
+}
+
+</style>

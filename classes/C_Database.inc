@@ -12,7 +12,8 @@ class C_Database
     //open a connection to the database
     function OpenConnection()
     {
-        $this->linkID = new mysqli($GLOBALS["server"], $GLOBALS["username"], $GLOBALS["password"], $GLOBALS["databaseName"]);
+        $this->linkID = new mysqli($GLOBALS["server"], $GLOBALS["username"], 
+            $GLOBALS["password"], $GLOBALS["databaseName"]);
     }
 
     //close a connection to the database
@@ -21,6 +22,7 @@ class C_Database
         $this->linkID->Close();
     }
 
+    //create the user record in the database
     function CreateSessionUser()
     {
         $result = "";
@@ -53,6 +55,9 @@ class C_Database
         $result = "";
 
         $sessionId = intval($_SESSION[$GLOBALS["userId"]]);
+        $text = mysqli_escape_string($this->linkID, $text);
+        $title = mysqli_escape_string($this->linkID, $title);
+        $author = mysqli_escape_string($this->linkID, $author);
         $query = 
             "CALL CreateLimerick('$text', '$title', '$author', $sessionId)";
         $tempResult = $this->linkID->query($query);

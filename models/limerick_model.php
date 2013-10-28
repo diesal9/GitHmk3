@@ -12,17 +12,6 @@ class C_Limerick_Model
         return $result;
     }
 
-    //update the viewed date of an entry
-    function UpdateViewedLimerick($limerickId)
-    {
-        //instantiate the Database class
-        $database = new C_Database();
-
-        $database->OpenConnection();
-        $result =  $database->UpdateViewedLimerick($limerickId);
-        $database->CloseConnection();
-    }
-
     //get the ten highest rated limerick entries
     function GetTenHighestRated()
     {

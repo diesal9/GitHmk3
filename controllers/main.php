@@ -10,10 +10,8 @@ class C_Controller
     function __construct($view, $limerick)
     {
         $this->view = $view;
-        //echo "Our view is: " . $this->view . "<br />";
 
         $this->limerick = $limerick;
-        //echo "Our limerick is: " . $this->limerick . "<br />";
 
         //process the user
         $this->ProcessLoginRequest();
@@ -28,13 +26,62 @@ class C_Controller
 
         if (strToLower($this->view) == "saveentry")
         {
-            $title = $this->getRequestSetting($_REQUEST, "title");
-            $text = $this->getRequestSetting($_REQUEST, "text");
-            $author = $this->getRequestSetting($_REQUEST, "author");
-            $limerickId = $limerickModel->saveEntry($text, $title, $author);
-            $this->limerick = $limerickId;
-            //echo "Limerick ID [" . $this->limerick . "]";
-            $this->view = "nonloggedin";
+            $valid = FALSE;
+            $formText = $this->getRequestSetting($_REQUEST, "text");
+            $formTextLastWords = "";
+            $formTextSplit = explode("\n", $formText);
+
+            for ($i = 0; $i < count($formTextSplit); $i++)
+            {
+                if (strlen($formTextSplit[$i]) > 0)
+                {
+                    $fSplit = explode(" ", $formTextSplit[$i]);
+
+                    if (strlen($formTextLastWords) == 0)
+                    {
+                        $formTextLastWords = 
+                            $fSplit[count($fSplit) - 1];
+                    }
+                    else
+                    {
+                        $formTextLastWords = $formTextLastWords . " " .
+                            $fSplit[count($fSplit) - 1];
+                    }
+                }
+            }
+
+            $formTextLastWordsSplit = explode(" ", $formTextLastWords);
+            if (count($formTextLastWordsSplit) == 5)
+            {
+                if (metaphone($formTextLastWordsSplit[0]) == 
+                    metaphone($formTextLastWordsSplit[1]) &&
+                    metaphone($formTextLastWordsSplit[0]) == 
+                    metaphone($formTextLastWordsSplit[4]) &&
+                    metaphone($formTextLastWordsSplit[1]) == 
+                    metaphone($formTextLastWordsSplit[4]) &&
+                    metaphone($formTextLastWordsSplit[2]) == 
+                    metaphone($formTextLastWordsSplit[3]))
+                    {
+                        $valid = TRUE;
+                    }
+            }
+
+            if ($valid)
+            {
+                $title = $this->getRequestSetting($_REQUEST, "title");
+                $text = $this->getRequestSetting($_REQUEST, "text");
+                $author = $this->getRequestSetting($_REQUEST, "author");
+                $limerickId = $limerickModel->saveEntry($text, $title, $author);
+                $this->limerick = $limerickId;
+                $this->view = "nonloggedin";
+            }
+            else
+            {
+                echo '<script type="text/javascript"> alert("' . 
+                    'The limerick is not in the correct form of AABBA' . 
+                    '") </script>';
+                $this->view = "limerick";
+            }
         }
 
         if (strToLower($this->view) == "random")
@@ -53,26 +100,20 @@ class C_Controller
             $this->view = "nonloggedin";
         }
 
+
         if (strToLower($this->view) == "limerick")
         {
             $data[0] = "Add New Limerick";
+            $data[1] = $this->getRequestSetting($_REQUEST, "title");
+            $data[2] = $this->getRequestSetting($_REQUEST, "text");
+            $data[3] = $this->getRequestSetting($_REQUEST, "author");
         }
         else
         {
-            $limerickModel->UpdateViewedLimerick($this->limerick);
             $data[0] = $limerickModel->getEntry($this->limerick);
             $data[1] = $limerickModel->GetTenHighestRated();
             $data[2] = $limerickModel->GetTenMostRecent();
-
-
-
-
         }
-
-        //$data[1] = $entryModel->getEntry($this->entry);
-        //$data[2] = $this->entry;
-        //$data[3] = $fileSystem->getTitles(BASE_DIR . "entries/");
-        //print_r($data);
 
         //load views file 
         $pathToViewsFile = BASE_DIR . "views/" . $this->view . ".php";

@@ -33,9 +33,6 @@ class C_View
     $count = 0;
     while ($row = $data[1]->fetch_row()) 
     {
-//row[0] = id
-//row[1] = title
-//row[2] = average
 ?>
                 <tr>
                     <td>
@@ -55,7 +52,7 @@ class C_View
                 </tr>
                 <tr>
                     <td>
-                        <label><strong>Ten Recently Viewed</strong></label>
+                        <label><strong>Ten Recently Created</strong></label>
                     </td>
                     <td>
                     </td>
@@ -64,9 +61,6 @@ class C_View
     $count = 0;
     while ($row = $data[2]->fetch_row()) 
     {
-//row[0] = id
-//row[1] = title
-//row[2] = date
 ?>
                 <tr>
                     <td>
@@ -95,11 +89,12 @@ class C_View
         </div>
         <h1><?php echo $GLOBALS["siteTitle"]; ?></h1>
 <?php
+echo "Session " . $_SESSION[$GLOBALS["userId"]] . "<br />";
 echo "Title " . $data[0]->title . "<br />";
 echo "Author " . $data[0]->author . "<br />";
-echo "Limerick " . str_replace("\n", "<br />", $data[0]->text) . "<br />";
+echo "Limerick <br />" . str_replace("\n", "<br />", $data[0]->text) . "<br />";
 
-$userRating = intval($data[0]->userRating);
+$userRating = floatval($data[0]->userRating);
 
 $left = TRUE;
 $count = 0;
@@ -107,7 +102,7 @@ $ratingToShow = 0;
 $id = $data[0]->id;
 $userId = $_SESSION[$GLOBALS["userId"]];
 //print yellow halves
-for ($i = 0; $i < $userRating; $i += 0.5)
+for ($i = 0.0; $i < $userRating; $i += 0.5)
 {
     $ratingToShow = $i + 0.5;
     if ($left)
@@ -129,7 +124,7 @@ for ($i = 0; $i < $userRating; $i += 0.5)
     $left = !$left;
 }
 //print grey halves
-for ($i = $userRating; $i < 5; $i += 0.5)
+for ($i = $userRating; $i < 5.0; $i += 0.5)
 {
     $ratingToShow = $i + 0.5;
     if ($left)
@@ -153,13 +148,13 @@ for ($i = $userRating; $i < 5; $i += 0.5)
 
 echo "User Rating " . $data[0]->userRating . "<br />";
 
-$totalRating = intval($data[0]->totalRating);
+$totalRating = floatval($data[0]->totalRating);
 
 $left = TRUE;
 $count = 0;
 $ratingToShow = 0;
 //print yellow halves
-for ($i = 0; $i < $totalRating; $i += 0.5)
+for ($i = 0.0; $i < $totalRating; $i += 0.5)
 {
     $ratingToShow = $i + 0.5;
     if ($left)
@@ -196,48 +191,6 @@ for ($i = $totalRating; $i < 5; $i += 0.5)
 }
 echo "Total Rating " . $data[0]->totalRating . "<br />";
 
-
-echo "Session " . $_SESSION[$GLOBALS["userId"]] . "<br />";
-?>
-<!--        <h1>
-            <a id="siteTitleId" 
-                href="?c=main&amp;view=nonloggedin&amp;e=mostrecent" >
-                <?php echo $GLOBALS["siteTitle"]; ?>
-            </a> - <?php echo $data[1]->contents[0]; ?>
-        </h1>
-        <div>
-            <?php 
-                echo "<p class='blogEntry'>";
-                for($i = 1; $i < count($data[1]->contents); $i++)
-                {
-                    echo $data[1]->contents[$i] . "<br />"; 
-                }
-                echo "</p>";
-            ?>
-            <br />
-            <label id='commentsLabel'>Comments</label> 
-            <br />
-            <?php 
-                for($i = 0; $i < count($data[1]->comments); $i++)
-                {
-                    echo "<p class='comment'>";
-                    $dateString = $data[1]->comments[$i][0];
-                    date_default_timezone_set('America/Los_Angeles');
-                    echo "<br />" . date("r", $dateString) . "<br />"; 
-                    for($j = 0; $j < count($data[1]->comments[$i][1]); $j++)
-                    {
-                        if ($j == 0)
-                        {
-                            echo "By: ";
-                        }
-                        echo $data[1]->comments[$i][1][$j] . "<br />"; 
-                    }
-                    echo "</p>";
-                }
-            ?>
-        </div>
--->
-<?php
         $this->printFooter();
     }
 

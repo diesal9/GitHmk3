@@ -16,7 +16,7 @@ class C_View
         </h1>
         <div>
             <form id='newEntryFormId' name='newEntryForm' method='get' 
-                action='index.php' >
+                action='index.php' onsubmit="return ValidateForm();" >
                 <div>
                 <input type='hidden' id='viewId' name='view' 
                     value='saveentry' />
@@ -29,7 +29,7 @@ class C_View
 	                    </td>
                         <td>
                             <input type='text' id='titleId' name='title' 
-                                value='' />
+                                value='<?php echo $data[1] ?>' />
 	                    </td>
                     </tr>
                     <tr>
@@ -39,7 +39,7 @@ class C_View
 	                    </td>
                         <td>
                             <input type='text' id='authorId' name='author' 
-                                value='' />
+                                value='<?php echo $data[3] ?>' />
 	                    </td>
                     </tr>
                     <tr>
@@ -50,8 +50,8 @@ class C_View
                             </label>
                         </td>
 	                    <td>
-		                    <textarea rows="4" cols="50" id='limerickTextArea' 
-                                name='text'></textarea>
+		                    <textarea rows="5" cols="50" id='limerickTextArea' 
+                                name='text'><?php echo $data[2] ?></textarea>
 	                    </td>
                     </tr>
                     <tr>
@@ -100,6 +100,64 @@ class C_View
         if ($this->loadConfigurationFile($pathToCssFile))
         {
 ?>
+                <script type="text/javascript">
+                    function ValidateForm()
+                    {
+                        var result = false;
+                        var formTitle = document.getElementById("titleId");
+
+                        var formAuthor = document.getElementById("authorId");
+
+                        var formText = 
+                            document.getElementById("limerickTextArea");
+
+                        var formTextThirtyCharacters = true;
+                        var formTextSplit = formText.value.split("\n");
+                        for (var i = 0; i < formTextSplit.length; i++)
+                        {
+                            if (formTextSplit[i].length > 30)
+                            {
+                                formTextThirtyCharacters = false;
+                                break;
+                            }
+                        }
+
+                        if (formTitle.value == "")
+                        {
+                            alert("Please fill in the title");
+                        }
+                        else if(formTitle.value.length > 30)
+                        {
+                            alert("The title cannot be longer than 30 " +
+                                "characters");
+                        }
+                        else if (formAuthor.value == "")
+                        {
+                            alert("Please fill in the author");
+                        }
+                        else if(formAuthor.value.length > 30)
+                        {
+                            alert("The author cannot be longer than 30 " +
+                                "characters");
+                        }
+                        else if(formTextSplit.length != 5)
+                        {
+                            alert("The limerick needs to have 5 lines");
+                        }
+                        else if(!formTextThirtyCharacters)
+                        {
+                            alert("The limerick cannot have a line length " + 
+                                "longer than 30 characters");
+                        }
+                        else
+                        {
+                            result = true;
+                        }
+
+                        return result;
+                    }
+
+                </script>
             </head>
 <?php
         }

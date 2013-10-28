@@ -11,13 +11,10 @@ class C_Hw3
     {
         //process the controller
         $this->controller = $this->getControllerRequested($request);
-        //echo "Our controller is: " . $this->controller . "<br />";
 
         $this->view = $this->getViewRequested($request);
-        //echo "Our view is: " . $this->view . "<br />";
 
         $this->limerick = $this->getLimerickRequested($request);
-        //echo "Our limerick is: " . $this->limerick . "<br />";
     }
 
     //show the page

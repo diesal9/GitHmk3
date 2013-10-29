@@ -53,14 +53,14 @@ class C_Controller
             $formTextLastWordsSplit = explode(" ", $formTextLastWords);
             if (count($formTextLastWordsSplit) == 5)
             {
-                if (metaphone($formTextLastWordsSplit[0]) == 
-                    metaphone($formTextLastWordsSplit[1]) &&
-                    metaphone($formTextLastWordsSplit[0]) == 
-                    metaphone($formTextLastWordsSplit[4]) &&
-                    metaphone($formTextLastWordsSplit[1]) == 
-                    metaphone($formTextLastWordsSplit[4]) &&
-                    metaphone($formTextLastWordsSplit[2]) == 
-                    metaphone($formTextLastWordsSplit[3]))
+                if (substr(metaphone($formTextLastWordsSplit[0]), -1) == 
+                    substr(metaphone($formTextLastWordsSplit[1]), -1) &&
+                    substr(metaphone($formTextLastWordsSplit[0]), -1) == 
+                    substr(metaphone($formTextLastWordsSplit[4]), -1) &&
+                    substr(metaphone($formTextLastWordsSplit[1]), -1) == 
+                    substr(metaphone($formTextLastWordsSplit[4]), -1) &&
+                    substr(metaphone($formTextLastWordsSplit[2]), -1) == 
+                    substr(metaphone($formTextLastWordsSplit[3]), -1))
                     {
                         $valid = TRUE;
                     }

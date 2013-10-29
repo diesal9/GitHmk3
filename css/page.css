@@ -10,6 +10,8 @@ h1
     text-transform: uppercase;
 }
 
+img { border-style: none; }
+
 a:visited {color:green;}
 a:hover   {color:black;}
 a:active  {color:blue;}

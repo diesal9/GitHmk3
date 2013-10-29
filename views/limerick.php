@@ -8,6 +8,85 @@ class C_View
         $this->printHeader();
 
 ?>
+        <div id="rightPaneOut">
+            <table>
+                <tr>
+                    <td>
+                        <a id="lId" href="?c=main&amp;view=limerick" >
+                            Create Limerick
+                        </a>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td><br /></td><td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label><strong>Ten Highest Rated</strong></label>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+<?php
+    $count = 0;
+    while ($row = $data[1]->fetch_row()) 
+    {
+?>
+                <tr>
+                    <td>
+                        <a id="tenHigh<?php echo $row[0]; ?>" 
+               href="?c=main&amp;view=nonloggedin&amp;l=<?php echo $row[0]; ?>">
+                        <?php echo $row[1]; ?></a>
+                    </td>
+                    <td>
+                        <label><?php echo $row[2]; ?></label>
+                    </td>
+                </tr>
+<?php
+    }
+?>
+                <tr>
+                    <td><br /></td><td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label><strong>Ten Recently Created</strong></label>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+<?php
+    $count = 0;
+    while ($row = $data[2]->fetch_row()) 
+    {
+?>
+                <tr>
+                    <td>
+                        <a id="tenMost<?php echo $row[0]; ?>" 
+               href="?c=main&amp;view=nonloggedin&amp;l=<?php echo $row[0]; ?>">
+                        <?php echo $row[1]; ?></a>
+                    </td>
+                    <td>
+                        <label><?php echo $row[2]; ?></label>
+                    </td>
+                </tr>
+<?php
+    }
+?>
+                <tr>
+                    <td><br /></td><td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a id="random" href="?c=main&amp;view=random">
+                        View a Random Limerick</a>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
         <h1>
             <a id="siteTitleId" 
                 href="?c=main&amp;view=nonloggedin" >
@@ -29,17 +108,17 @@ class C_View
 	                    </td>
                         <td>
                             <input type='text' id='titleId' name='title' 
-                                value='<?php echo $data[1] ?>' />
+                                value='<?php echo $data[3] ?>' />
 	                    </td>
                     </tr>
                     <tr>
 	                    <td>
 		                    <label id='authorLabel' 
                                 for='authorId' >Author</label>
-	                    </td>
-                        <td>
+                        </td>
+	                    <td>
                             <input type='text' id='authorId' name='author' 
-                                value='<?php echo $data[3] ?>' />
+                                value='<?php echo $data[5] ?>' />
 	                    </td>
                     </tr>
                     <tr>
@@ -51,7 +130,7 @@ class C_View
                         </td>
 	                    <td>
 		                    <textarea rows="5" cols="50" id='limerickTextArea' 
-                                name='text'><?php echo $data[2] ?></textarea>
+                                name='text'><?php echo $data[4] ?></textarea>
 	                    </td>
                     </tr>
                     <tr>
@@ -113,7 +192,7 @@ class C_View
 
                         var formTextThirtyCharacters = true;
                         var formTextSplit = formText.value.split("\n");
-                        for (var i = 0; i < formTextSplit.length; i++)
+                        for (var i = formTextSplit.length - 1; i >= 0; i--)
                         {
                             if (formTextSplit[i].length > 30)
                             {

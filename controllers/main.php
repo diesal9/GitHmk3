@@ -97,22 +97,20 @@ class C_Controller
             $userId = $this->getRequestSetting($_REQUEST, "u");
             $limerickModel->
                 SubmitUserRating($rating, $userId, $this->limerick);
-            $this->view = "nonloggedin";
+            header("Location: index.php?c=main&view=nonloggedin&l=" . 
+                $this->limerick);
         }
 
+        $data[0] = $limerickModel->getEntry($this->limerick);
+        $data[1] = $limerickModel->GetTenHighestRated();
+        $data[2] = $limerickModel->GetTenMostRecent();
 
         if (strToLower($this->view) == "limerick")
         {
             $data[0] = "Add New Limerick";
-            $data[1] = $this->getRequestSetting($_REQUEST, "title");
-            $data[2] = $this->getRequestSetting($_REQUEST, "text");
-            $data[3] = $this->getRequestSetting($_REQUEST, "author");
-        }
-        else
-        {
-            $data[0] = $limerickModel->getEntry($this->limerick);
-            $data[1] = $limerickModel->GetTenHighestRated();
-            $data[2] = $limerickModel->GetTenMostRecent();
+            $data[3] = $this->getRequestSetting($_REQUEST, "title");
+            $data[4] = $this->getRequestSetting($_REQUEST, "text");
+            $data[5] = $this->getRequestSetting($_REQUEST, "author");
         }
 
         //load views file 

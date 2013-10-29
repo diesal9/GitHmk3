@@ -2,11 +2,11 @@
 
 //the name of the db user
 global $username;
-$username = "xxxxx";
+$username = "xxx";
 
 //the password of the db user
 global $password;
-$password = "xxxxx";
+$password = "xxx";
 
 //the name of the db server
 global $server;
@@ -18,7 +18,7 @@ $databaseName = "cbocage_hmk3";
 
 //the name of the login session variable
 global $userId;
-$userId = "userId";
+$userId = "userIdSesVar";
 
 //an array of supported controllers
 global $controllersSupported;

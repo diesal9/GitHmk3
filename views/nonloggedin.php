@@ -12,7 +12,7 @@ class C_View
             <table>
                 <tr>
                     <td>
-                        <a id="cId" href="?c=main&amp;view=limerick" >
+                        <a id="lId" href="?c=main&amp;view=limerick" >
                             Create Limerick
                         </a>
                     </td>
@@ -36,7 +36,7 @@ class C_View
 ?>
                 <tr>
                     <td>
-                        <a id=tenHigh<?php echo $row[0]; ?> 
+                        <a id="tenHigh<?php echo $row[0]; ?>" 
                href="?c=main&amp;view=nonloggedin&amp;l=<?php echo $row[0]; ?>">
                         <?php echo $row[1]; ?></a>
                     </td>
@@ -64,7 +64,7 @@ class C_View
 ?>
                 <tr>
                     <td>
-                        <a id=tenMost<?php echo $row[0]; ?> 
+                        <a id="tenMost<?php echo $row[0]; ?>" 
                href="?c=main&amp;view=nonloggedin&amp;l=<?php echo $row[0]; ?>">
                         <?php echo $row[1]; ?></a>
                     </td>
@@ -80,7 +80,7 @@ class C_View
                 </tr>
                 <tr>
                     <td>
-                        <a id=random href="?c=main&amp;view=random">
+                        <a id="random" href="?c=main&amp;view=random">
                         View a Random Limerick</a>
                     </td>
                     <td></td>
@@ -88,12 +88,63 @@ class C_View
             </table>
         </div>
         <h1><?php echo $GLOBALS["siteTitle"]; ?></h1>
+        <div>
+            <form id='newEntryFormId' name='newEntryForm' method='get' 
+                action='index.php' onsubmit="return ValidateForm();" >
+                <div>
+                <input type='hidden' id='viewId' name='view' 
+                    value='saveentry' />
+                <input type='hidden' id='cId' name='c' value='main' />
+                </div>
+                <table>
+                    <tr>
+	                    <td>
+		          <label id='sessionIDLabel' for='sessionID' >Session Id</label>
+	                    </td>
+                        <td>
+                            <input type='text' id='sessionID' name='title' 
+                            value='<?php echo $_SESSION[$GLOBALS["userId"]]; ?>'  
+                                readonly="readonly"/>
+	                    </td>
+                    </tr>
+                    <tr>
+	                    <td>
+		                    <label id='titleLabel' for='titleId' >Title</label>
+	                    </td>
+                        <td>
+                            <input type='text' id='titleId' name='title' 
+                                value='<?php echo $data[0]->title; ?>'  
+                                readonly="readonly"/>
+	                    </td>
+                    </tr>
+                    <tr>
+	                    <td>
+		                    <label id='authorLabel' 
+                                for='authorId' >Author</label>
+	                    </td>
+                        <td>
+                            <input type='text' id='authorId' name='author' 
+                                value='<?php echo $data[0]->author; ?>' 
+                                readonly="readonly"/>
+	                    </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label id='limerickTextAreaLabel' 
+                                for='limerickTextArea' >
+                                Limerick Text
+                            </label>
+                        </td>
+	                    <td>
+		                    <textarea rows="5" cols="50" id='limerickTextArea' 
+        name='text' readonly="readonly"><?php echo $data[0]->text; ?></textarea>
+	                    </td>
+                    </tr>
+               </table>
+            </form>
+        </div>
+        <div>
 <?php
-echo "Session " . $_SESSION[$GLOBALS["userId"]] . "<br />";
-echo "Title " . $data[0]->title . "<br />";
-echo "Author " . $data[0]->author . "<br />";
-echo "Limerick <br />" . str_replace("\n", "<br />", $data[0]->text) . "<br />";
-
 $userRating = floatval($data[0]->userRating);
 
 $left = TRUE;
@@ -104,12 +155,12 @@ $userId = $_SESSION[$GLOBALS["userId"]];
 //print yellow halves
 for ($i = 0.0; $i < $userRating; $i += 0.5)
 {
-    $ratingToShow = $i + 0.5;
+    $ratingToShow = ceil($i + 0.5);
     if ($left)
     {
         echo "<a id='greyStarA$count' href='?c=main&amp;l=$id&amp;u=$userId" .
             "&amp;view=setuserrating&amp;r=$ratingToShow'>" . 
-            "<img border='0' id='greyStarI$count' " . 
+            "<img id='greyStarI$count' " . 
             "src='Images/YellowStarLeftSide.png' " . 
             "alt='rate it at $ratingToShow' /></a>";
     }
@@ -117,21 +168,22 @@ for ($i = 0.0; $i < $userRating; $i += 0.5)
     {
         echo "<a id='greyStarA$count' href='?c=main&amp;l=$id&amp;u=$userId" .
             "&amp;view=setuserrating&amp;r=$ratingToShow'>" . 
-            "<img border='0' id='greyStarI$count' " . 
+            "<img id='greyStarI$count' " . 
             "src='Images/YellowStarRightSide.png' " . 
             "alt='rate it at $ratingToShow' /></a>";
     }
     $left = !$left;
+    $count++;
 }
 //print grey halves
 for ($i = $userRating; $i < 5.0; $i += 0.5)
 {
-    $ratingToShow = $i + 0.5;
+    $ratingToShow = ceil($i + 0.5);
     if ($left)
     {
         echo "<a id='greyStarA$count' href='?c=main&amp;l=$id&amp;u=$userId" .
             "&amp;view=setuserrating&amp;r=$ratingToShow'>" . 
-            "<img border='0' id='greyStarI$count' " . 
+            "<img id='greyStarI$count' " . 
             "src='Images/GreyStarLeftSide.png' " . 
             "alt='rate it at $ratingToShow' /></a>";
     }
@@ -139,11 +191,12 @@ for ($i = $userRating; $i < 5.0; $i += 0.5)
     {
         echo "<a id='greyStarA$count' href='?c=main&amp;l=$id&amp;u=$userId" .
             "&amp;view=setuserrating&amp;r=$ratingToShow'>" . 
-            "<img border='0' id='greyStarI$count' " . 
+            "<img id='greyStarI$count' " . 
             "src='Images/GreyStarRightSide.png' " . 
             "alt='rate it at $ratingToShow' /></a>";
     }
     $left = !$left;
+    $count++;
 }
 
 echo "User Rating " . $data[0]->userRating . "<br />";
@@ -159,17 +212,18 @@ for ($i = 0.0; $i < $totalRating; $i += 0.5)
     $ratingToShow = $i + 0.5;
     if ($left)
     {
-        echo "<img border='0' id='greyStarI$count' " . 
+        echo "<img id='greyStarG$count' " . 
             "src='Images/YellowStarLeftSide.png' " . 
             "alt='rate it at $ratingToShow' />";
     }
     else
     {
-        echo "<img border='0' id='greyStarI$count' " . 
+        echo "<img id='greyStarG$count' " . 
             "src='Images/YellowStarRightSide.png' " . 
             "alt='rate it at $ratingToShow' />";
     }
     $left = !$left;
+    $count++;
 }
 //print grey halves
 for ($i = $totalRating; $i < 5; $i += 0.5)
@@ -177,20 +231,23 @@ for ($i = $totalRating; $i < 5; $i += 0.5)
     $ratingToShow = $i + 0.5;
     if ($left)
     {
-        echo "<img border='0' id='greyStarI$count' " . 
+        echo "<img id='greyStarG$count' " . 
             "src='Images/GreyStarLeftSide.png' " . 
-            "alt='rate it at $ratingToShow' />";
+            "alt='rated at $ratingToShow' />";
     }
     else
     {
-        echo "<img border='0' id='greyStarI$count' " . 
+        echo "<img id='greyStarG$count' " . 
             "src='Images/GreyStarRightSide.png' " . 
-            "alt='rate it at $ratingToShow' />";
+            "alt='rated at $ratingToShow' />";
     }
     $left = !$left;
+    $count++;
 }
 echo "Total Rating " . $data[0]->totalRating . "<br />";
-
+?>
+    </div>
+<?php
         $this->printFooter();
     }
 
